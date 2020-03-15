@@ -1,0 +1,17 @@
+eureka:
+  client:
+    enabled: false
+  instance:
+    appname: config-service
+    instanceId: config-service:${spring.application.instance-id:${random.value}}
+
+spring:
+  application:
+    name: config-service
+  mvc:
+    favicon:
+      enabled: false
+
+server:
+  port: 10344
+  address: localhost

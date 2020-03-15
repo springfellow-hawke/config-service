@@ -1,0 +1,41 @@
+#
+# If no port is specified on the env or command line, then use 8101 as the default.
+#
+server:
+  port: ${PORT:8101}
+
+
+# Enable scanning of all directories that contains *service in the name.
+# Standard for setting up properties will be in the following folder structure:
+#
+#      /services
+#      -           /gateway-service
+#                                   - /gateway-service.yml (default prop file for common properties)
+#                                   - /gateway-service-dev.yml
+#
+#      -           /auth-service
+#                                   - /auth-service.yml (default prop file for common properties)
+#                                   - /auth-service-dev.yml
+#                                   - /auth-service-prod.yml
+#
+# auth-server will be the application name that is defined in the bootstrap.yml file for the specific service.
+#
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com-sfh:springfellow-hawke/config-service-repo.git
+          search-paths:
+            - 'services'
+            - 'services/*service'  # This will search for all yml property files in folders ending in 'service'.
+          timeout: 10
+
+  #
+  # Running the config service with properties in the local resources folder is also available. To enable this add the following property:
+  # This is handy feature to enable testing on local machine.
+  #
+  #  profiles:
+  #    active: native
+
